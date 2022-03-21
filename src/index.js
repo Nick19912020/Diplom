@@ -120,9 +120,9 @@ for (let j = 1; j < TopSlides.length; j++) {
 let i = 0;
 
 setInterval(() => {
-        TopSlides[i].hidden = true;
-        i = (i + 1) % TopSlides.length
-        TopSlides[i].hidden = false;
+    TopSlides[i].hidden = true;
+    i = (i + 1) % TopSlides.length
+    TopSlides[i].hidden = false;
 
 }, 3000);
 
