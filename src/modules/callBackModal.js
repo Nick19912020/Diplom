@@ -11,6 +11,7 @@ const CallBackForm = document.querySelector("form");
 
 const CallBackNameInput = CallBackModal.querySelector("input");
 
+
 export const CallBackModalModule = () => {
 
     for (const Button of CallBackButtons) {
@@ -24,6 +25,11 @@ export const CallBackModalModule = () => {
     const CallBackXHR = new XMLHttpRequest();
 
     CallBackModal.getElementsByClassName("modal-close")[0].addEventListener("click", () => {
+        ModalOverlay.style.display = "none";
+        CallBackModal.style.display = "none";
+    })
+
+    ModalOverlay.addEventListener("click", () => {
         ModalOverlay.style.display = "none";
         CallBackModal.style.display = "none";
     })

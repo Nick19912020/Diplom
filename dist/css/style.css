@@ -376,6 +376,10 @@ a.absolute {
 .header-tel {
 	letter-spacing: 0.5px;
 	margin-left: 15px;
+	cursor: pointer;
+}
+.header-email {
+	cursor: pointer;
 }
 .header-tel .fa,
 .header-email .fa {
@@ -397,6 +401,7 @@ a.absolute {
 }
 .mob-menu-btn {
 	margin: 24px 5px 0 20px;
+	cursor: pointer;
 }
 .mob-menu-btn span {
 	display: block;
@@ -456,6 +461,7 @@ a.absolute {
 .mobile-menu-close.close {
 	top: 25px;
 	right: 25px;
+	cursor: pointer;
 }
 .callback-btn {
 	padding: 0 30px;
@@ -655,7 +661,6 @@ a.absolute {
 	line-height: 1;
 	font-weight: bold;
 	color: #e9bb26;
-	opacity: 0;
 }
 .num-section .num.animated {
 	opacity: 1;
@@ -932,8 +937,6 @@ video#video_background {
 		height: 520px;
 	}
 	.top-slider .table {
-		opacity: 0;
-		visibility: hidden;
 		-webkit-transform: scale(1.5);
 		-ms-transform: scale(1.5);
 		-o-transform: scale(1.5);
