@@ -7,6 +7,7 @@ import {CompanyNumbersModule} from "./modules/companyNumbers";
 import {ConnectModule} from "./modules/connect";
 import {LogoModule} from "./modules/logo";
 import {MobileMenuModule} from "./modules/mobileMenu";
+import {BlockLinkModule} from "./modules/blockLink";
 
 AccordionModule()
 CallBackModalModule()
@@ -17,3 +18,4 @@ CompanyNumbersModule()
 ConnectModule()
 LogoModule()
 MobileMenuModule()
+BlockLinkModule()

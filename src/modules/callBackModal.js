@@ -3,24 +3,53 @@ const ModalOverlay = document.getElementsByClassName("modal-overlay")[0];
 const CallBackModal = document.getElementById("callback");
 
 const CallBackButtons = [...document.getElementsByClassName("callback-btn"),
-    ...document.getElementsByClassName("services-elements")[0].getElementsByClassName("element"),
-    ...document.getElementsByClassName("button-services")
+...document.getElementsByClassName("services-elements")[0].getElementsByClassName("element"),
+...document.getElementsByClassName("button-services")
 ];
 
-const CallBackForm = document.querySelector("form");
+const CallBackForm = CallBackModal.querySelector("form");
 
-const CallBackNameInput = CallBackModal.querySelector("input");
+const CallBackInputs = CallBackModal.querySelectorAll("input")
 
+const StatusModal = document.getElementById("responseMessage")
+
+const StatusCloseButton = document.querySelector("button")
+
+const StautsState = StatusModal.getElementsByClassName("modal-content")[0]
+
+const CallBackNameInput = CallBackInputs[0]
+
+const CallBackPhoneInput = CallBackInputs[1]
+
+
+function inputTest(tester, event, input) {
+    if (!tester.test(event.data)) {
+        if (input.value.length === 1) {
+            input.value = "";
+        } else {
+            input.value = input.value.slice(0, input.value.length - 1);
+        }
+    }
+}
+
+function clearForm() {
+    CallBackNameInput.value = ""
+    CallBackPhoneInput.value = ""
+}
 
 export const CallBackModalModule = () => {
 
     for (const Button of CallBackButtons) {
-        Button.addEventListener("click", function () {
+        Button.addEventListener("click", () => {
             ModalOverlay.style.display = "inline";
             CallBackModal.style.display = "inline";
         }, false);
     }
 
+    StatusCloseButton.addEventListener("click", () => {
+        ModalOverlay.style.display = "none";
+        StatusModal.style.display = "none";
+    }, false);
 
     const CallBackXHR = new XMLHttpRequest();
 
@@ -36,25 +65,32 @@ export const CallBackModalModule = () => {
 
     const RussianSymbols = /[А-Яа-я ]/;
 
+    const PhoneSymbols = /[+\d]/
+
     CallBackNameInput.addEventListener("input", (e) => {
-        if (!RussianSymbols.test(e.data)) {
-            if (CallBackNameInput.value.length === 1) {
-                CallBackNameInput.value = "";
-            } else {
-                CallBackNameInput.value = CallBackNameInput.value.slice(0, CallBackNameInput.value.length - 1);
-            }
-        }
+        inputTest(RussianSymbols, e, CallBackNameInput)
     });
+
+    CallBackPhoneInput.addEventListener("input", (e) => {
+        inputTest(PhoneSymbols, e, CallBackPhoneInput)
+    })
 
     CallBackForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const Data = new FormData(CallBackForm);
-        CallBackXHR.open("POST", "localhost:8080/api/netservera", true);
+        CallBackModal.style.display = "none";
+        StatusModal.style.display = "inline"
+        clearForm()
+        CallBackXHR.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
+
         CallBackXHR.onload = () => {
-            alert("Все круто");
+            StautsState.textContent = "Отправка удалась"
+        }
+        CallBackXHR.onprogress = () => {
+            StautsState.textContent = "Происходит загрузка"
         }
         CallBackXHR.onerror = () => {
-            alert("Сервера нет, server.php пустой");
+            StautsState.textContent = "Сервера нет, server.php пустой"
         }
         CallBackXHR.send(Data);
     });

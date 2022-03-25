@@ -293,6 +293,20 @@ a.absolute {
 	padding: 55px 25px 35px;
 	z-index: 99;
 }
+
+.modal-status {
+	display: none;
+	position: fixed;
+	top: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 460px;
+	max-width: 100%;
+	background: #fff;
+	padding: 55px 25px 35px;
+	z-index: 100;
+}
+
 #responseMessage .modal-content.error {
 	color: #2fab6d;
 }
