@@ -174,8 +174,12 @@ h4 {
 .green {
 	color: #308502;
 }
+/*??*/
 .red {
 	color: #2fab6d;
+}
+.normal-red {
+	color: red;
 }
 .white {
 	color: #fff;

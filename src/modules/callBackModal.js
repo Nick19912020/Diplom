@@ -21,6 +21,7 @@ const CallBackNameInput = CallBackInputs[0]
 
 const CallBackPhoneInput = CallBackInputs[1]
 
+const CallBackWarningMessage = CallBackModal.getElementsByClassName("form-warning-message")[0]
 
 function inputTest(tester, event, input) {
     if (!tester.test(event.data)) {
@@ -37,6 +38,15 @@ function clearForm() {
     CallBackPhoneInput.value = ""
 }
 
+const Validation = {
+    fio(val) {
+        return val.length > 1
+    },
+    tel(val) {
+        return val.length > 5 && val.length < 17
+    }
+}
+
 export const CallBackModalModule = () => {
 
     for (const Button of CallBackButtons) {
@@ -51,7 +61,6 @@ export const CallBackModalModule = () => {
         StatusModal.style.display = "none";
     }, false);
 
-    const CallBackXHR = new XMLHttpRequest();
 
     CallBackModal.getElementsByClassName("modal-close")[0].addEventListener("click", () => {
         ModalOverlay.style.display = "none";
@@ -77,22 +86,35 @@ export const CallBackModalModule = () => {
 
     CallBackForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const Data = new FormData(CallBackForm);
+        const Payload = {}
+        for (const CallBackInput of CallBackInputs) {
+            if (CallBackInput.type === "text"){
+                if (!Validation[CallBackInput.name](CallBackInput.value)) {
+                    CallBackWarningMessage.textContent = "поле Имя минимум 2, поле Телефон минимум 6 максимум 16"
+                    setTimeout(()=> {
+                        CallBackWarningMessage.textContent = ""
+                    }, 3000)
+                    return
+                }
+                Payload[CallBackInput.name] = CallBackInput.value
+            }
+
+        }
         CallBackModal.style.display = "none";
         StatusModal.style.display = "inline"
         clearForm()
-        CallBackXHR.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
-
-        CallBackXHR.onload = () => {
+        StautsState.textContent = "Происходит загрузка"
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(Payload)
+        }).then(() => {
             StautsState.textContent = "Отправка удалась"
-        }
-        CallBackXHR.onprogress = () => {
-            StautsState.textContent = "Происходит загрузка"
-        }
-        CallBackXHR.onerror = () => {
-            StautsState.textContent = "Сервера нет, server.php пустой"
-        }
-        CallBackXHR.send(Data);
+        }).catch(() => {
+            StautsState.textContent = "Отправка не удалась"
+        })
     });
 }
 
